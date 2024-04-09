@@ -3,13 +3,19 @@
 
 pub type c_int = i32; // hardcoded, this might depend
 
-pub type word_t = int<16>; // again, hardcoded. 
+pub type seL4_Word = int<16>; // again, hardcoded. 
 
-typedef word_t seL4_Word;
+pub struct PhantomData<T>
+where
+    T: ?Sized;
+
+pub macro asm("assembly template", $(operands,)* $(options($(option),*))?) {
+    /* compiler built-in */
+}
 
 #[repr(transparent)]
 
-#[derive(Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug)]
+#[derive(Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug)]
 pub struct Bitfield<T, U> {
     inner: T,
     _phantom: PhantomData<U>,
@@ -81,6 +87,6 @@ pub fn sys_recv(
             lateout("r14") _,
         );
     }
-    (seL4_MessageInfo::from_word(out_info), out_badge)
+    (seL4_Message_info::from_word(out_info), out_badge)
 }
 
