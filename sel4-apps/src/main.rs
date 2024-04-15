@@ -15,9 +15,13 @@ pub type CInt = i32;
 pub type SeL4Word = i32;
 
 
+pub mod syscall_id {
+    include!(concat!(env!("OUT_DIR"), "/syscall_ids.rs"));
+}
+
 pub fn main() {
     unsafe {
-	let syscall_id: SeL4Word = 3;
+	let syscall_id: SeL4Word = syscall_id::Recv as SeL4Word;
         let out_badge: SeL4Word;
         let out_info: SeL4Word;
         let mut mr0 = 0;
